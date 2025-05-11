@@ -32,11 +32,6 @@ void setup() {
   Serial.begin(9600);
   Serial.println("Adafruit Radio - Si4713 Test"); 
 
-  pinMode(RESETPIN, OUTPUT);
-  digitalWrite(RESETPIN, LOW); // to reset
-  delay(100);                   // hold reset low for a short time
-  digitalWrite(RESETPIN, HIGH);
-
   if (! radio.begin()) {  // begin with address 0x63 (CS high default)
     Serial.println("Couldn't find radio?");
     while (1);
