@@ -53,8 +53,6 @@ bool Adafruit_Si4713::begin(uint8_t addr, TwoWire *theWire) {
   if (!i2c_dev->begin())
     return false;
 
-  reset();
-
   powerUp();
 
   // check for Si4713
