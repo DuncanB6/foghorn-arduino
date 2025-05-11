@@ -34,7 +34,7 @@ void setup() {
 
   pinMode(RESETPIN, OUTPUT);
   digitalWrite(RESETPIN, LOW); // to reset
-  delay(1000);                   // hold reset low for a short time
+  delay(100);                   // hold reset low for a short time
   digitalWrite(RESETPIN, HIGH);
 
   if (! radio.begin()) {  // begin with address 0x63 (CS high default)
@@ -52,6 +52,8 @@ void setup() {
    }
 
   */
+
+  delay(250);
    
 
   Serial.print("\nSet TX power");
@@ -90,6 +92,8 @@ void loop() {
   Serial.println(radio.currASQ, HEX);
   Serial.print("\tCurr InLevel:"); 
   Serial.println(radio.currInLevel);
+  Serial.print("\tCurr ANTcap:"); 
+  Serial.println(radio.currAntCap);
   // toggle GPO1 and GPO2
   radio.setGPIO(_BV(1));
   delay(500);
