@@ -32,6 +32,8 @@ Adafruit_Si4713 radio = Adafruit_Si4713(RESETPIN);
 void setup() {
   Serial.begin(9600);
   Serial.println("Adafruit Radio - Si4713 Test"); 
+  
+  Wire.begin(0x63);
 
   init_fm();
 
@@ -89,6 +91,38 @@ void init_fm() {
   delay(100);
   digitalWrite(RESETPIN, HIGH);
   delay(100);
+
+  byte command[3] = {0x01, 0x12, 0x50};
+  byte reply[1];
+
+  Wire.beginTransmission(0x63);
+  for (int i = 0; i < 3; i++) {
+    Wire.write(command[i]);
+    Serial.print("0x");
+    Serial.println(command[i], HEX);
+  }
+  Wire.endTransmission();
+
+  delay(10); // Small delay before requesting data
+
+  // Request 3-byte reply
+  Wire.requestFrom(0x63, 1);
+  
+  int i = 0;
+  while (Wire.available() && i < 1) {
+    reply[i++] = Wire.read();
+  }
+
+  // Print received data
+  Serial.print("Received: ");
+  for (int j = 0; j < i; j++) {
+    Serial.print("0x");
+    Serial.print(reply[j], HEX);
+    Serial.print(" ");
+  }
+  Serial.println();
+
+  delay(1000);  // Wait before next transaction
 
 }
 

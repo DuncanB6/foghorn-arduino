@@ -315,15 +315,6 @@ uint8_t Adafruit_Si4713::getStatus() {
  *            SI4713_PROP_TX_ACOMP_ENABLE: turned on limiter and AGC
  */
 void Adafruit_Si4713::powerUp() {
-  _i2ccommand[0] = SI4710_CMD_POWER_UP;
-  _i2ccommand[1] = 0x12;
-  // CTS interrupt disabled
-  // GPO2 output disabled
-  // Boot normally
-  // xtal oscillator ENabled
-  // FM transmit
-  _i2ccommand[2] = 0x50; // analog input mode
-  sendCommand(3);
 
   // configuration! see page 254
   setProperty(SI4713_PROP_REFCLK_FREQ, 32768); // crystal is 32.768
