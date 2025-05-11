@@ -20,6 +20,7 @@
 
 #include <Wire.h>
 #include <Adafruit_Si4713.h>
+#include <main.h>
 #define _BV(n) (1 << n)
 
 #define RESETPIN 12
@@ -32,11 +33,7 @@ void setup() {
   Serial.begin(9600);
   Serial.println("Adafruit Radio - Si4713 Test"); 
 
-  pinMode(RESETPIN, OUTPUT);
-  digitalWrite(RESETPIN, LOW); // to reset
-  delay(100);                   // hold reset low for a short time
-  digitalWrite(RESETPIN, HIGH);
-  delay(100);
+  init_fm();
 
   if (! radio.begin()) {  // begin with address 0x63 (CS high default)
     Serial.println("Couldn't find radio?");
@@ -85,7 +82,15 @@ void setup() {
   radio.setGPIOctrl(_BV(1) | _BV(2));  // set GP1 and GP2 to output
 }
 
+void init_fm() {
+  // reset board using pin
+  pinMode(RESETPIN, OUTPUT);
+  digitalWrite(RESETPIN, LOW);
+  delay(100);
+  digitalWrite(RESETPIN, HIGH);
+  delay(100);
 
+}
 
 void loop() {
   radio.readASQ();
