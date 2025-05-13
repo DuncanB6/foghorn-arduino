@@ -103,9 +103,9 @@ void init_fm() {
   }
   Wire.endTransmission();
 
-  delay(10); // Small delay before requesting data
+  delay(10);
 
-  // Request 3-byte reply
+  // request 1-byte reply
   Wire.requestFrom(0x63, 1);
   
   int i = 0;
@@ -113,7 +113,7 @@ void init_fm() {
     reply[i++] = Wire.read();
   }
 
-  // Print received data
+  // print received data
   Serial.print("Received: ");
   for (int j = 0; j < i; j++) {
     Serial.print("0x");
@@ -122,8 +122,37 @@ void init_fm() {
   }
   Serial.println();
 
-  delay(1000);  // Wait before next transaction
+  delay(100);
+  
+  byte command2[1] = {0x10}; // get revision
+  byte reply2[9];
 
+  Wire.beginTransmission(0x63);
+  for (int i = 0; i < 1; i++) {
+    Wire.write(command2[i]);
+    Serial.print("0x");
+    Serial.println(command2[i], HEX);
+  }
+  Wire.endTransmission();
+
+  delay(10);
+
+    // request 9-byte reply
+  Wire.requestFrom(0x63, 9);
+  
+  int i2 = 0;
+  while (Wire.available() && i2 < 9) {
+    reply2[i2++] = Wire.read();
+  }
+
+  // print received data
+  Serial.print("Received: ");
+  for (int j = 0; j < i2; j++) {
+    Serial.print("0x");
+    Serial.print(reply2[j], HEX);
+    Serial.print(" ");
+  }
+  Serial.println();
 }
 
 void loop() {
